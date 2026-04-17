@@ -1,0 +1,23 @@
+{
+  "testEnvironment": "node",
+  "coverageDirectory": "coverage",
+  "collectCoverageFrom": [
+    "routes/**/*.js",
+    "models/**/*.js",
+    "middleware/**/*.js",
+    "!**/*.test.js"
+  ],
+  "testMatch": [
+    "**/__tests__/**/*.js",
+    "**/*.test.js"
+  ],
+  "setupFilesAfterEnv": [
+    "<rootDir>/config/test-setup.js"
+  ],
+  "collectCoverage": false,
+  "verbose": true,
+  "forceExit": true,
+  "clearMocks": true,
+  "resetMocks": true,
+  "restoreMocks": true
+}

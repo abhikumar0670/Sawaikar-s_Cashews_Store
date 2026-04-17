@@ -1,0 +1,59 @@
+/* Global CSS to fix widget positioning */
+
+/* ====== HIDE TAWK.TO WIDGET ====== */
+/* Since we replaced Tawk.to with our AI ChatbotWidget, hide all Tawk.to elements */
+#tawk-bubble-container,
+.tawk-flex-center,
+.tawk-chat-widget,
+div[id*="tawk"],
+iframe[src*="tawk.to"],
+#tawk_5c808d8b361b3372892e9115,
+iframe[title*="chat widget"],
+.widget-visible,
+div[class*="tawk"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* ====== AI CHATBOT WIDGET POSITIONING ====== */
+/* These classes are for reference - actual positioning is in styled-components */
+.chatbot-widget-button {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  z-index: 9999 !important;
+}
+
+.chatbot-widget-window {
+  position: fixed !important;
+  bottom: 100px !important;
+  right: 24px !important;
+  z-index: 9998 !important;
+}
+
+/* ====== GO TO TOP BUTTON ====== */
+.go-to-top-btn {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 100px !important;  /* Offset from chatbot */
+  z-index: 9990 !important;
+}
+
+/* ====== MEDIA QUERIES ====== */
+@media (max-width: 768px) {
+  .go-to-top-btn {
+    bottom: 24px !important;
+    right: 100px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .go-to-top-btn {
+    bottom: 24px !important;
+    right: 90px !important;
+  }
+}
