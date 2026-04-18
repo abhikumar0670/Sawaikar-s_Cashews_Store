@@ -34,9 +34,16 @@ const cartReducer = (state, action) => {
       };
     } else {
       // Get the first image if it's an array, otherwise use the image directly
-      const displayImage = Array.isArray(product.image) 
-        ? (product.image[0]?.url || product.image[0]) 
-        : product.image;
+      let displayImage = '';
+      if (product.image) {
+        if (Array.isArray(product.image)) {
+          displayImage = typeof product.image[0] === 'string' ? product.image[0] : (product.image[0]?.url || '');
+        } else if (typeof product.image === 'string') {
+          displayImage = product.image;
+        } else if (product.image.url) {
+          displayImage = product.image.url;
+        }
+      }
 
       // Find variant stock if weight is selected
       let maxStock = product.stock;

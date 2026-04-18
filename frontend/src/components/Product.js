@@ -14,8 +14,23 @@ const Product = (curElem) => {
     const { addToCart } = useCartContext();
     const [showAddToCartAnimation, setShowAddToCartAnimation] = useState(false);
     
+    // Safety check: if critical product data is missing, don't render
+    if (!id || !name) {
+      return null;
+    }
+    
     // Get the first image if it's an array, otherwise use the image directly
-    const displayImage = Array.isArray(image) ? image[0] : image;
+    let displayImage = '';
+    if (image) {
+      if (Array.isArray(image)) {
+        displayImage = typeof image[0] === 'string' ? image[0] : (image[0]?.url || '');
+      } else if (typeof image === 'string') {
+        displayImage = image;
+      } else if (typeof image === 'object' && image.url) {
+        displayImage = image.url;
+      }
+    }
+    displayImage = displayImage || '/images/premium.jpg'; // Default image fallback
 
     // Get display price based on default variant or base price
     const getDisplayPrice = () => {
@@ -23,7 +38,7 @@ const Product = (curElem) => {
         const defaultVariant = variants.find(v => v.weight === defaultWeight) || variants[0];
         return defaultVariant.price;
       }
-      return price;
+      return price || 0;
     };
 
     const displayPrice = getDisplayPrice();

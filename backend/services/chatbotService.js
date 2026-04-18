@@ -2,6 +2,7 @@ const Conversation = require('../models/Conversation');
 const Product = require('../models/Product');
 const Order = require('../models/Order');
 const User = require('../models/User');
+const RagContextService = require('./ragContextService');
 
 class ChatbotService {
   constructor() {
@@ -9,11 +10,12 @@ class ChatbotService {
     this.groqModel = process.env.GROQ_MODEL || 'mixtral-8x7b-32768';
     // Groq API endpoint (OpenAI-compatible)
     this.groqEndpoint = 'https://api.groq.com/openai/v1/chat/completions';
+    this.ragEnabled = process.env.RAG_ENABLED !== 'false'; // Default: enabled
   }
 
-  // System prompt for the chatbot
-  getSystemPrompt(context = {}) {
-    return `You are a friendly and helpful customer support assistant for Sawaikar's Cashew Store, a premium cashew and dry fruits e-commerce store from Goa, India.
+  // System prompt for the chatbot - enhanced with RAG context
+  getSystemPrompt(context = {}, ragContext = null) {
+    let basePrompt = `You are a friendly and helpful customer support assistant for Sawaikar's Cashew Store, a premium cashew and dry fruits e-commerce store from Goa, India.
 
 ## About the Store:
 - Sawaikar's is a family-owned business selling premium quality cashews and dry fruits
@@ -37,6 +39,7 @@ class ChatbotService {
 - Never make up information about orders or policies
 - Keep responses concise but helpful (max 2-3 paragraphs)
 - If customer seems frustrated, acknowledge their feelings and offer escalation
+- IMPORTANT: Use the retrieved product data, FAQs, and reviews below to provide accurate, specific answers
 
 ## Current Context:
 ${context.userName ? `Customer Name: ${context.userName}` : 'Guest User'}
@@ -44,17 +47,35 @@ ${context.recentOrders?.length ? `Recent Orders: ${context.recentOrders.map(o =>
 ${context.lastProductViewed ? `Last Product Viewed: ${context.lastProductViewed}` : ''}
 
 Remember: You represent Sawaikar's Cashew Store. Be helpful, honest, and make customers feel valued!`;
+
+    // Add RAG context if available
+    if (ragContext && (ragContext.relevantProducts?.length > 0 || ragContext.relevantFAQs?.length > 0 || ragContext.relevantReviews?.length > 0)) {
+      const ragContextString = RagContextService.formatContextForPrompt(ragContext);
+      basePrompt += '\n' + ragContextString;
+    }
+
+    return basePrompt;
   }
 
-  // Call Groq API (OpenAI-compatible format)
-  async callGroq(messages, context = {}) {
+  // Call Groq API with RAG context (OpenAI-compatible format)
+  async callGroq(messages, context = {}, userId = null) {
     if (!this.groqApiKey) {
       console.warn('[Groq API] ❌ GROQ_API_KEY not set, using fallback responses');
       return this.getFallbackResponse(messages[messages.length - 1]?.content || '');
     }
 
     try {
-      const systemPrompt = this.getSystemPrompt(context);
+      // Retrieve RAG context if enabled
+      let ragContext = null;
+      const userMessage = messages[messages.length - 1]?.content || '';
+      
+      if (this.ragEnabled) {
+        console.log('[Groq API] 🔍 Retrieving RAG context...');
+        ragContext = await RagContextService.retrieveContext(userMessage, userId);
+        console.log(`[Groq API] ✅ RAG context retrieved - Products: ${ragContext.sources.products}, FAQs: ${ragContext.sources.faqs}, Reviews: ${ragContext.sources.reviews}`);
+      }
+
+      const systemPrompt = this.getSystemPrompt(context, ragContext);
 
       // Format messages for Groq (OpenAI-compatible format)
       const groqMessages = [
@@ -82,7 +103,8 @@ Remember: You represent Sawaikar's Cashew Store. Be helpful, honest, and make cu
 
       console.log(`[Groq API] 📤 Sending request to ${this.groqEndpoint}`);
       console.log(`[Groq API] Model: ${this.groqModel}`);
-      console.log(`[Groq API] User message: "${messages[messages.length - 1]?.content}"`);
+      console.log(`[Groq API] RAG Enabled: ${this.ragEnabled}`);
+      console.log(`[Groq API] User message: "${userMessage}"`);
 
       const response = await fetch(this.groqEndpoint, {
         method: 'POST',
@@ -99,7 +121,7 @@ Remember: You represent Sawaikar's Cashew Store. Be helpful, honest, and make cu
         const error = await response.json().catch(() => ({ error: 'Unknown error' }));
         console.error('[Groq API] ❌ Error response:', JSON.stringify(error, null, 2));
         console.warn('[Groq API] Falling back to knowledge base responses');
-        return this.getFallbackResponse(messages[messages.length - 1]?.content || '');
+        return this.getFallbackResponse(userMessage);
       }
 
       const data = await response.json();
@@ -112,7 +134,7 @@ Remember: You represent Sawaikar's Cashew Store. Be helpful, honest, and make cu
       }
 
       console.warn('[Groq API] No choices in response, falling back');
-      return this.getFallbackResponse(messages[messages.length - 1]?.content || '');
+      return this.getFallbackResponse(userMessage);
     } catch (error) {
       console.error('[Groq API] ❌ Call failed:', error.message);
       console.error('[Groq API] Stack:', error.stack);
@@ -292,9 +314,9 @@ Remember: You represent Sawaikar's Cashew Store. Be helpful, honest, and make cu
       }
     }
 
-    // If no order found or order ID not provided, use Groq AI
+    // If no order found or order ID not provided, use Groq AI with RAG
     if (!aiResponse) {
-      aiResponse = await this.callGroq(conversation.messages, context);
+      aiResponse = await this.callGroq(conversation.messages, context, userId);
     }
 
     // Add assistant response to conversation
