@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "root": "frontend",
+  "buildCommand": "npm install && CI=false npm run build",
+  "outputDirectory": "build",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
+{
+  "version": 2,
+  "buildCommand": "npm install && CI=false npm run build",
+  "outputDirectory": "build",
+  "framework": null,
+  "root": "frontend",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
