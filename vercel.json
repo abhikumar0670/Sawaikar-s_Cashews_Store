@@ -3,6 +3,7 @@
   "buildCommand": "npm install && CI=false npm run build",
   "outputDirectory": "build",
   "framework": null,
+  "root": "frontend",
   "rewrites": [
     {
       "source": "/(.*)",
