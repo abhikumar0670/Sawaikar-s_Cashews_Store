@@ -36,6 +36,9 @@ Sawaikar's Cashew Store is a modern, feature-rich e-commerce platform built with
 - Product recommendation engine
 - Nutrition-based product suggestions
 - Personalized user experiences
+- RAG (Retrieval-Augmented Generation) system
+- Vector-based semantic search
+- Intelligent context retrieval from knowledge base
 
 📦 **Smart Features**
 - QR/Barcode scanning for in-store checkout
@@ -93,6 +96,12 @@ GMAIL_REFRESH_TOKEN=your_refresh_token
 # APIs
 GROQ_API_KEY=your_groq_api_key
 
+# RAG & Vector Search
+PINECONE_API_KEY=your_pinecone_api_key
+PINECONE_ENVIRONMENT=your_pinecone_environment
+PINECONE_INDEX_NAME=cashew-store-index
+OPENAI_API_KEY=your_openai_api_key  # For embeddings
+
 # Frontend URL
 FRONTEND_URL=http://localhost:3000
 ```
@@ -126,6 +135,52 @@ npm start
 The app will be available at:
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:5000
+
+---
+
+## 🧠 RAG (Retrieval-Augmented Generation) Setup
+
+### Overview
+The platform includes a powerful RAG system that combines vector search with generative AI for enhanced chatbot responses and intelligent information retrieval.
+
+### Components
+- **Vector Service**: Manages embeddings and vector search
+- **RAG Context Service**: Retrieves relevant context from knowledge base
+- **Indexing Scripts**: Pre-processes and indexes products, FAQs, and reviews
+- **FAQ Database**: Static knowledge base in `backend/data/faqData.js`
+
+### Setup Steps
+
+1. **Install Vector Database** (Pinecone)
+   - Sign up at https://www.pinecone.io
+   - Create an index named `cashew-store-index`
+   - Add credentials to `.env`
+
+2. **Index Your Data**
+   ```bash
+   cd backend
+   # Index all products, FAQs, and reviews
+   node scripts/indexAllData.js
+   # Or index individually:
+   # node scripts/indexProducts.js
+   # node scripts/indexFAQs.js
+   # node scripts/indexReviews.js
+   ```
+
+3. **Configure OpenAI** (for embeddings)
+   - Get API key from https://platform.openai.com
+   - Add `OPENAI_API_KEY` to `.env`
+
+4. **Test RAG Endpoints**
+   ```bash
+   # Search with RAG
+   curl -X GET "http://localhost:5000/api/content/search?query=best%20cashews"
+   
+   # Chat with RAG context
+   curl -X POST "http://localhost:5000/api/chatbot/rag-message" \
+     -H "Content-Type: application/json" \
+     -d '{"message":"Tell me about your premium cashews"}'
+   ```
 
 ---
 
@@ -165,6 +220,21 @@ Sawaikar-s_Cashew_Store/
 │   │   ├── auth.js          # Authentication
 │   │   ├── clerkAuth.js     # Clerk verification
 │   │   └── errorHandler.js
+│   ├── services/            # Business logic services
+│   │   ├── chatbotService.js
+│   │   ├── recommendationService.js
+│   │   ├── ragContextService.js    # RAG context retrieval
+│   │   ├── vectorService.js        # Vector search & embeddings
+│   │   ├── nutritionRecommendationService.js
+│   │   └── stockManagementService.js
+│   ├── scripts/             # Utility & setup scripts
+│   │   ├── indexAllData.js          # Index all data for RAG
+│   │   ├── indexProducts.js         # Index products
+│   │   ├── indexFAQs.js             # Index FAQs
+│   │   ├── indexReviews.js          # Index reviews
+│   │   └── registerAdmin.js
+│   ├── data/                # Static data files
+│   │   └── faqData.js       # FAQ knowledge base
 │   ├── config/              # Configuration files
 │   ├── server.js            # Entry point
 │   └── package.json
@@ -212,6 +282,12 @@ Authorization: Bearer <your_jwt_token>
 
 **Chatbot**
 - `POST /api/chatbot/message` - Send message to AI chatbot
+
+**RAG & Vector Search**
+- `POST /api/content/index` - Index content for RAG
+- `GET /api/content/search` - Semantic search with RAG
+- `GET /api/content/context` - Retrieve relevant context
+- `POST /api/chatbot/rag-message` - Chat with RAG-enhanced responses
 
 **Analytics** (Admin)
 - `GET /api/analytics/sales` - Get sales data
@@ -463,9 +539,9 @@ For issues, questions, or suggestions:
 
 ---
 
-**Last Updated**: April 5, 2026  
-**Version**: 1.0.0  
-**Status**: Active Development ✨
+**Last Updated**: April 18, 2026  
+**Version**: 2.0.0  
+**Status**: Active Development with RAG Features ✨
 
 ---
 
