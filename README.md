@@ -2,13 +2,7 @@
 
 A modern, full-stack e-commerce platform for premium Goan cashews with AI-powered chatbot, loyalty programs, intelligent recommendations, and comprehensive inventory management.
 
-**Live Demo:** [https://sawaikar-s-cashews-store-v2.vercel.app](https://sawaikar-s-cashews-store-v2.vercel.app)
-
----
-
-## 🎯 Overview
-
-Sawaikar's Cashew Store is a feature-rich e-commerce application built with modern technologies, designed to deliver an exceptional customer experience while providing powerful admin tools for business management.
+🌐 **Live Demo:** [https://sawaikar-s-cashews-store-v2.vercel.app](https://sawaikar-s-cashews-store-v2.vercel.app)
 
 ---
 
