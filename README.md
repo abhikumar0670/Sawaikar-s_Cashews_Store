@@ -1,207 +1,94 @@
 # 🥜 Sawaikar's Cashew Store - Premium E-Commerce Platform
 
-A full-stack e-commerce platform specializing in premium cashews with advanced features like loyalty programs, AI chatbot, product recommendations, QR-based checkout, and comprehensive inventory management.
+A modern, full-stack e-commerce platform for premium Goan cashews with AI-powered chatbot, loyalty programs, intelligent recommendations, and comprehensive inventory management.
 
-[![GitHub](https://img.shields.io/badge/GitHub-abhikumar0670-blue?style=flat&logo=github)](https://github.com/abhikumar0670)
-[![License](https://img.shields.io/badge/License-MIT-green?style=flat)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=flat)]()
+**Live Demo:** [https://sawaikar-s-cashews-store-v2.vercel.app](https://sawaikar-s-cashews-store-v2.vercel.app)
+
+---
 
 ## 🎯 Overview
 
-Sawaikar's Cashew Store is a modern, feature-rich e-commerce platform built with:
-- **Frontend**: React 18 + Styled Components
-- **Backend**: Node.js/Express.js
-- **Database**: MongoDB Atlas
-- **Authentication**: Clerk
-- **Payments**: Razorpay
-- **Hosting**: Vercel (Frontend), Cloud Platform (Backend)
+Sawaikar's Cashew Store is a feature-rich e-commerce application built with modern technologies, designed to deliver an exceptional customer experience while providing powerful admin tools for business management.
 
-### Key Features
+---
 
-✨ **E-Commerce Core**
-- Complete product catalog with variants and QR codes
-- Advanced shopping cart with smart recommendations
-- Multi-payment gateway (Razorpay, UPI, Net Banking)
-- Order tracking with real-time updates
+## 🛠️ Tech Stack
+
+### Frontend
+- **React 18** - UI library
+- **Styled Components** - CSS-in-JS styling
+- **React Router** - Client-side routing
+- **Clerk** - Authentication & user management
+- **Razorpay** - Payment processing
+- **React Icons** - Icon library
+- **React Hot Toast** - Notifications
+
+### Backend
+- **Node.js/Express.js** - Server & API
+- **MongoDB Atlas** - NoSQL database
+- **Mongoose** - Database ODM
+- **JWT** - Token-based authentication
+- **Groq API** - AI chatbot integration
+- **Pinecone** - Vector database for RAG
+- **OpenAI** - Embeddings & RAG
+- **Sentry** - Error tracking
+
+### Hosting
+- **Frontend:** Vercel
+- **Backend:** Render
+- **Database:** MongoDB Atlas
+
+---
+
+## ✨ Key Features
+
+### 🛍️ E-Commerce Core
+- Complete product catalog with variants
+- QR code & barcode scanning
+- Smart shopping cart
+- Multiple payment gateways (Razorpay, UPI, Net Banking)
+- Real-time order tracking
 - Inventory management system
 
-🎁 **Customer Loyalty**
-- Tiered loyalty program (Bronze/Silver/Gold/Platinum)
-- Achievement badges and rewards
-- Referral system with automatic point distribution
+### 🎁 Loyalty Program
+- Tiered rewards (Bronze/Silver/Gold/Platinum)
+- Achievement badges
+- Referral system with automatic points
 - Points redemption for discounts
 
-🤖 **AI & Intelligence**
-- AI-powered chatbot (Groq API integration)
-- Product recommendation engine
-- Nutrition-based product suggestions
-- Personalized user experiences
+### 🤖 AI & Intelligence
+- AI-powered chatbot (Groq API)
 - RAG (Retrieval-Augmented Generation) system
+- Product recommendation engine
+- Nutrition-based suggestions
 - Vector-based semantic search
-- Intelligent context retrieval from knowledge base
 
-📦 **Smart Features**
-- QR/Barcode scanning for in-store checkout
-- Product bundles and smart combos
+### 📦 Smart Features
+- Product bundles & combos
 - Dynamic coupon management
 - Newsletter subscription
-- Feedback and review system
-- Analytics dashboard for admins
+- User reviews & feedback
+- Admin analytics dashboard
 
 ---
 
-## 🚀 Quick Start
-
-### Prerequisites
-
-- **Node.js** v16+ and npm/yarn
-- **MongoDB** Atlas account
-- **Git** for version control
-
-### Installation
-
-1. **Clone the repository**
-```bash
-git clone https://github.com/abhikumar0670/Sawaikar-s_Cashew_Store.git
-cd Sawaikar-s_Cashew_Store
-```
-
-2. **Backend Setup**
-```bash
-cd backend
-npm install
-```
-
-Create `.env` file in backend directory:
-```env
-# Server
-PORT=5000
-NODE_ENV=development
-
-# Database
-MONGODB_URI=your_mongodb_connection_string
-
-# Authentication
-CLERK_SECRET_KEY=your_clerk_secret_key
-
-# Payments
-RAZORPAY_KEY_ID=your_razorpay_key
-RAZORPAY_KEY_SECRET=your_razorpay_secret
-
-# Email
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASS=your_app_password
-GMAIL_REFRESH_TOKEN=your_refresh_token
-
-# APIs
-GROQ_API_KEY=your_groq_api_key
-
-# RAG & Vector Search
-PINECONE_API_KEY=your_pinecone_api_key
-PINECONE_ENVIRONMENT=your_pinecone_environment
-PINECONE_INDEX_NAME=cashew-store-index
-OPENAI_API_KEY=your_openai_api_key  # For embeddings
-
-# Frontend URL
-FRONTEND_URL=http://localhost:3000
-```
-
-3. **Frontend Setup**
-```bash
-cd frontend
-npm install
-```
-
-Create `.env.local` file in frontend directory:
-```env
-REACT_APP_API_BASE_URL=http://localhost:5000
-REACT_APP_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
-```
-
-4. **Run Development Servers**
-
-Backend:
-```bash
-cd backend
-npm start
-```
-
-Frontend (in another terminal):
-```bash
-cd frontend
-npm start
-```
-
-The app will be available at:
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:5000
-
----
-
-## 🧠 RAG (Retrieval-Augmented Generation) Setup
-
-### Overview
-The platform includes a powerful RAG system that combines vector search with generative AI for enhanced chatbot responses and intelligent information retrieval.
-
-### Components
-- **Vector Service**: Manages embeddings and vector search
-- **RAG Context Service**: Retrieves relevant context from knowledge base
-- **Indexing Scripts**: Pre-processes and indexes products, FAQs, and reviews
-- **FAQ Database**: Static knowledge base in `backend/data/faqData.js`
-
-### Setup Steps
-
-1. **Install Vector Database** (Pinecone)
-   - Sign up at https://www.pinecone.io
-   - Create an index named `cashew-store-index`
-   - Add credentials to `.env`
-
-2. **Index Your Data**
-   ```bash
-   cd backend
-   # Index all products, FAQs, and reviews
-   node scripts/indexAllData.js
-   # Or index individually:
-   # node scripts/indexProducts.js
-   # node scripts/indexFAQs.js
-   # node scripts/indexReviews.js
-   ```
-
-3. **Configure OpenAI** (for embeddings)
-   - Get API key from https://platform.openai.com
-   - Add `OPENAI_API_KEY` to `.env`
-
-4. **Test RAG Endpoints**
-   ```bash
-   # Search with RAG
-   curl -X GET "http://localhost:5000/api/content/search?query=best%20cashews"
-   
-   # Chat with RAG context
-   curl -X POST "http://localhost:5000/api/chatbot/rag-message" \
-     -H "Content-Type: application/json" \
-     -d '{"message":"Tell me about your premium cashews"}'
-   ```
-
----
-
-## 📁 Project Structure
+## � Project Structure
 
 ```
 Sawaikar-s_Cashew_Store/
-├── frontend/                 # React frontend
-│   ├── public/              # Static files
+├── frontend/                    # React application
 │   ├── src/
-│   │   ├── pages/           # Page components (20+)
-│   │   ├── components/      # Reusable UI components (48)
-│   │   ├── context/         # State management (Cart, Auth, Filter)
-│   │   ├── config/          # API configuration
-│   │   ├── styles/          # Global styles
-│   │   ├── App.js           # Main app component
-│   │   └── index.js         # Entry point
+│   │   ├── components/         # Reusable UI components (48+)
+│   │   ├── pages/              # Page components (20+)
+│   │   ├── context/            # State management (Cart, Auth, Filters)
+│   │   ├── styles/             # Global styles
+│   │   ├── config/             # API configuration
+│   │   ├── hooks/              # Custom React hooks
+│   │   └── App.js              # Main application component
 │   └── package.json
 │
-├── backend/                  # Node.js/Express backend
-│   ├── routes/              # API endpoints
+├── backend/                     # Node.js/Express API
+│   ├── routes/                 # API endpoints (15+ routes)
 │   │   ├── products.js
 │   │   ├── orders.js
 │   │   ├── users.js
@@ -209,67 +96,272 @@ Sawaikar-s_Cashew_Store/
 │   │   ├── loyalty.js
 │   │   ├── chatbot.js
 │   │   ├── analytics.js
-│   │   └── ... (15+ routes)
-│   ├── models/              # MongoDB schemas (17 models)
-│   │   ├── User.js
+│   │   └── ...
+│   ├── models/                 # MongoDB schemas (17 models)
 │   │   ├── Product.js
+│   │   ├── User.js
 │   │   ├── Order.js
 │   │   ├── UserLoyalty.js
 │   │   └── ...
-│   ├── middleware/          # Custom middleware
-│   │   ├── auth.js          # Authentication
-│   │   ├── clerkAuth.js     # Clerk verification
-│   │   └── errorHandler.js
-│   ├── services/            # Business logic services
+│   ├── services/               # Business logic
 │   │   ├── chatbotService.js
+│   │   ├── vectorService.js
+│   │   ├── ragContextService.js
 │   │   ├── recommendationService.js
-│   │   ├── ragContextService.js    # RAG context retrieval
-│   │   ├── vectorService.js        # Vector search & embeddings
-│   │   ├── nutritionRecommendationService.js
-│   │   └── stockManagementService.js
-│   ├── scripts/             # Utility & setup scripts
-│   │   ├── indexAllData.js          # Index all data for RAG
-│   │   ├── indexProducts.js         # Index products
-│   │   ├── indexFAQs.js             # Index FAQs
-│   │   ├── indexReviews.js          # Index reviews
-│   │   └── registerAdmin.js
-│   ├── data/                # Static data files
-│   │   └── faqData.js       # FAQ knowledge base
-│   ├── config/              # Configuration files
-│   ├── server.js            # Entry point
+│   │   └── ...
+│   ├── middleware/             # Custom middleware
+│   ├── scripts/                # Setup & seeding scripts
+│   ├── config/                 # Configuration files
+│   ├── server.js               # Entry point
 │   └── package.json
 │
-├── .env                      # ⚠️ NOT COMMITTED (use .env.example)
-├── .gitignore              # Git ignore rules
-├── README.md               # This file
-└── package.json            # Root package
+├── vercel.json                 # Vercel deployment config
+├── .gitignore                  # Git ignore rules
+└── README.md
 ```
 
 ---
 
-## 🔑 API Documentation
+## 🚀 Quick Start
 
-### Base URL
-```
-Development: http://localhost:5000
-Production: https://api.sawaikars.com
+### Prerequisites
+- Node.js v16+ and npm/yarn
+- MongoDB Atlas account
+- Git
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/abhikumar0670/Sawaikar-s_Cashew_Store.git
+   cd Sawaikar-s_Cashew_Store
+   ```
+
+2. **Backend Setup**
+   ```bash
+   cd backend
+   npm install
+   ```
+   
+   Create `.env` file in backend directory:
+   ```env
+   PORT=5000
+   NODE_ENV=development
+   MONGODB_URI=your_mongodb_connection_string
+   CLERK_SECRET_KEY=your_clerk_key
+   RAZORPAY_KEY_ID=your_razorpay_key
+   RAZORPAY_KEY_SECRET=your_razorpay_secret
+   EMAIL_USER=your_email@gmail.com
+   EMAIL_PASS=your_app_password
+   GROQ_API_KEY=your_groq_api_key
+   PINECONE_API_KEY=your_pinecone_key
+   PINECONE_INDEX_NAME=sawaikar-chat
+   OPENAI_API_KEY=your_openai_key
+   FRONTEND_URL=http://localhost:3000
+   PRODUCTION_URL=your_vercel_domain
+   ```
+
+3. **Frontend Setup**
+   ```bash
+   cd frontend
+   npm install
+   ```
+   
+   Create `.env` file in frontend directory:
+   ```env
+   REACT_APP_API_URL=http://localhost:5000/api
+   REACT_APP_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+   REACT_APP_RAZORPAY_KEY_ID=your_razorpay_key
+   ```
+
+### Running Development Servers
+
+**Backend (Terminal 1):**
+```bash
+cd backend
+npm start
+# Runs on http://localhost:5000
 ```
 
-### Authentication
-All protected routes require Clerk JWT token in Authorization header:
-```
-Authorization: Bearer <your_jwt_token>
+**Frontend (Terminal 2):**
+```bash
+cd frontend
+npm start
+# Runs on http://localhost:3000
 ```
 
-### Main Endpoints
+---
 
-**Products**
+## 🔑 Key API Endpoints
+
+### Products
 - `GET /api/products` - Get all products
 - `GET /api/products/:id` - Get product details
-- `POST /api/products` - Create product (admin only)
-- `PUT /api/products/:id` - Update product (admin only)
+- `POST /api/products` - Create product (admin)
 
-**Orders**
+### Orders
+- `GET /api/orders` - Get user orders
+- `POST /api/orders` - Create order
+- `GET /api/orders/:id` - Get order details
+
+### Loyalty
+- `GET /api/loyalty/points` - Get loyalty points
+- `GET /api/loyalty/tier` - Get tier status
+- `GET /api/loyalty/achievements` - Get badges
+
+### Chatbot & RAG
+- `POST /api/chatbot/message` - Chat with AI
+- `GET /api/content/search` - Semantic search
+- `POST /api/chatbot/rag-message` - RAG-enhanced chat
+
+---
+
+## 🧠 RAG System Setup
+
+The platform includes a Retrieval-Augmented Generation (RAG) system for intelligent chatbot responses.
+
+### Setup Steps
+
+1. **Create Pinecone Index**
+   - Sign up at [pinecone.io](https://pinecone.io)
+   - Create index: `sawaikar-chat`
+   - Add credentials to `.env`
+
+2. **Index Data**
+   ```bash
+   cd backend
+   node scripts/indexAllData.js
+   ```
+
+3. **Test RAG Endpoints**
+   ```bash
+   curl -X GET "http://localhost:5000/api/content/search?query=best%20cashews"
+   ```
+
+---
+
+## 🚀 Deployment
+
+### Frontend (Vercel)
+```bash
+cd frontend
+vercel deploy
+```
+
+### Backend (Render)
+1. Go to [render.com](https://render.com)
+2. Connect your GitHub repository
+3. Set environment variables in Render dashboard
+4. Deploy
+
+---
+
+## 🔐 Environment Variables
+
+### Backend Required Variables
+- `MONGODB_URI` - MongoDB connection string
+- `CLERK_SECRET_KEY` - Clerk authentication key
+- `RAZORPAY_KEY_ID` & `RAZORPAY_KEY_SECRET` - Payment gateway keys
+- `GROQ_API_KEY` - AI chatbot API key
+- `PINECONE_API_KEY` - Vector database key
+- `OPENAI_API_KEY` - Embeddings API key
+- `EMAIL_USER` & `EMAIL_PASS` - Email service credentials
+
+### Frontend Required Variables
+- `REACT_APP_API_URL` - Backend API URL
+- `REACT_APP_CLERK_PUBLISHABLE_KEY` - Clerk public key
+- `REACT_APP_RAZORPAY_KEY_ID` - Razorpay public key
+
+**⚠️ IMPORTANT:** Never commit `.env` files. Use `.env.example` as a template.
+
+---
+
+## 📊 Database Schema
+
+**Models:**
+- User - Customer accounts
+- Product - Product catalog
+- Order - Purchase orders
+- UserLoyalty - Loyalty points & tiers
+- Achievement - Customer badges
+- Review - Product reviews
+- Coupon - Discount codes
+- Bundle - Product combinations
+- Analytics - User behavior tracking
+- And 8+ more...
+
+---
+
+## 🛠️ Development Commands
+
+**Backend:**
+```bash
+npm start              # Start server
+npm run dev           # Start with nodemon (auto-reload)
+node seedData.js      # Seed sample data
+```
+
+**Frontend:**
+```bash
+npm start             # Start dev server
+npm run build         # Create production build
+npm run test          # Run tests
+```
+
+---
+
+## 📈 Performance Features
+
+- ✅ Code splitting & lazy loading
+- ✅ Image lazy loading
+- ✅ Gzip compression
+- ✅ Rate limiting on API
+- ✅ Database indexing
+- ✅ Error tracking with Sentry
+
+---
+
+## 🐛 Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Backend won't start | Check if port 5000 is in use: `lsof -i :5000` (Mac/Linux) or `netstat -ano | findstr :5000` (Windows) |
+| MongoDB connection failed | Verify connection string & IP whitelist in MongoDB Atlas |
+| Clerk auth issues | Clear browser cache, verify Clerk keys in dashboard |
+| API calls failing | Check `REACT_APP_API_URL` in frontend `.env` |
+
+---
+
+## 📝 License
+
+MIT License - see LICENSE file for details
+
+---
+
+## 👤 Author
+
+**Abhishek Kumar**
+- GitHub: [@abhikumar0670](https://github.com/abhikumar0670)
+- Email: abhikumar0670@gmail.com
+
+---
+
+## 🤝 Contributing
+
+Contributions welcome! Please:
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+---
+
+Made with ❤️ for cashew lovers everywhere 🥜
+
+**Last Updated:** April 19, 2026  
+**Version:** 2.0.0  
+**Status:** Active Development
 - `GET /api/orders` - Get user's orders
 - `POST /api/orders` - Create new order
 - `GET /api/orders/:id` - Get order details
@@ -499,9 +591,7 @@ This project is licensed under the MIT License - see LICENSE file for details.
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-### Guidelines:
+Contributions welcome! Please:
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Commit changes (`git commit -m 'Add amazing feature'`)
@@ -510,39 +600,8 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
 
-## 📞 Support
+Made with ❤️ for cashew lovers everywhere 🥜
 
-For issues, questions, or suggestions:
-- Open an issue on GitHub
-- Email: abhikumar0670@gmail.com
-
----
-
-## 🗺️ Roadmap
-
-- [ ] Mobile app (React Native/Flutter)
-- [ ] Advanced analytics dashboard
-- [ ] Machine learning-based recommendations
-- [ ] Voice shopping assistant
-- [ ] Subscription box service
-- [ ] B2B wholesale platform
-- [ ] Social commerce integration
-
----
-
-## 📚 Documentation
-
-- [Comprehensive Analysis Report](COMPREHENSIVE_ANALYSIS_REPORT.md)
-- [API Documentation](API_DOCS.md) - Coming soon
-- [Database Schema](DB_SCHEMA.md) - Coming soon
-- [Architecture Guide](ARCHITECTURE.md) - Coming soon
-
----
-
-**Last Updated**: April 18, 2026  
-**Version**: 2.0.0  
-**Status**: Active Development with RAG Features ✨
-
----
-
-*Made with ❤️ for cashew lovers everywhere* 🥜
+**Last Updated:** April 19, 2026  
+**Version:** 2.0.0  
+**Status:** Active Development
