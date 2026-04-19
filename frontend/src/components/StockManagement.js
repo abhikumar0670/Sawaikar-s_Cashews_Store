@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FiAlertCircle, FiCheck, FiChevronDown, FiChevronUp, FiPackage, FiTrendingDown } from 'react-icons/fi';
+import { FiAlertCircle, FiCheck, FiChevronDown, FiChevronUp, FiPackage, FiTrendingDown, FiRefreshCw } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 
 const StockContainer = styled.div`
@@ -120,9 +120,9 @@ const SectionLabel = styled.div`
  * Shows product stock status with visual indicators
  */
 export const StockDisplay = ({ product, selectedWeight }) => {
-  if (!product) return null;
-
   const [showOtherPacks, setShowOtherPacks] = useState(false);
+  
+  if (!product) return null;
 
   const toSafeNumber = (value) => {
     const parsed = Number(value);
