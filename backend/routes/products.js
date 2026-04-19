@@ -295,6 +295,14 @@ router.get('/', async (req, res) => {
     const products = await productsQuery;
     
     console.log(`📦 Fetched ${products.length} products`);
+    
+    // Add caching headers for better performance
+    // Cache for 5 minutes (300 seconds) for public product data
+    res.set({
+      'Cache-Control': 'public, max-age=300',
+      'X-Content-Type-Options': 'nosniff'
+    });
+    
     res.json(products);
   } catch (error) {
     console.error('Error fetching products:', error);

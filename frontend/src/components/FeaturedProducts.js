@@ -1,12 +1,25 @@
 import { useProductContext } from "../context/productContext";
 import styled from "styled-components";
 import Product from "./Product";
+import { ProductCardSkeleton } from "./SkeletonLoader";
 
 const FeatureProduct = () => {
   const { isLoading, featureProducts } = useProductContext();
 
   if (isLoading) {
-    return <div> ......Loading </div>;
+    return (
+      <Wrapper className="section">
+        <div className="container">
+          <div className="intro-data">Check Now!</div>
+          <div className="common-heading">Our Feature Services</div>
+          <div className="grid grid-three-column">
+            {[1, 2, 3].map((index) => (
+              <ProductCardSkeleton key={index} />
+            ))}
+          </div>
+        </div>
+      </Wrapper>
+    );
   }
 
   return (
